@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,3 +30,23 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+// スケジュール
+// スケジュールの一覧表示
+Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedule.index');
+
+// スケジュール新規作成画面の表示
+Route::get('/schedules/create', [ScheduleController::class, 'create'])->name('schedule.create')->middleware('auth');
+
+// スケジュールの新規登録
+Route::post('/schedules/store', [ScheduleController::class, 'store'])->name('schedule.store')->middleware('auth');
+
+// スケジュールの編集画面の表示
+Route::get('/schedules/edit/{schedule}', [ScheduleController::class, 'edit'])->name('schedule.edit')->middleware('auth');
+
+// スケジュール情報の更新
+Route::put('/schedules/update/{schedule}', [ScheduleController::class, 'update'])->name('schedule.update')->middleware('auth');
+
+// スケジュールの削除
+Route::delete('/schedules/{schedule}', [ScheduleController::class, 'destroy'])->name('schedule.destroy')->middleware('auth');
