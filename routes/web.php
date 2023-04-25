@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,26 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+// ブログ
+// 記事の一覧表示
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+
+// 記事新規作成画面の表示
+Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create')->middleware('auth');
+
+// 記事の新規登録
+Route::post('/blogs/store', [BlogController::class, 'store'])->name('blogs.store')->middleware('auth');
+
+// 記事の編集画面の表示
+Route::get('/blogs/edit/{blog}', [BlogController::class, 'edit'])->name('blogs.edit')->middleware('auth');
+
+// 記事の更新
+Route::put('/blogs/update/{blog}', [BlogController::class, 'update'])->name('blogs.update')->middleware('auth');
+
+// 記事の削除
+Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blog.destroy')->middleware('auth');
 
 
 // スケジュール
