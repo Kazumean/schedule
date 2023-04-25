@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 
-class ScheduleController--resourse extends Controller
+class ScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $page = request()->input('page');
+
+        if (!$page) {
+            $page = 0;
+        }
+
+        $yyyy = date('Y', strtotime("+$page month"));
+        $mm = date('m', strtotime("+$page month"));
+        $days = date('d', mktime(0, 0, 0, date('m')+($page+1), 0, date('Y')));
+
+        $schedules = Schedule::where('yyyymmdd', 'LIKE', $yyyy.'-'.$mm.'-%')->get();
+
+        return view('sche_index', compact('page', 'yyyy', 'mm', 'days', 'schedules'));
     }
 
     /**
