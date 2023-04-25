@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Blog;
 use App\Models\Schedule;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -43,7 +44,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // リレーションを追加
+
+    // Blogsとのリレーションを追加
+    public function blogs() {
+        return $this->hasMany(Blog::class);
+    }
+
+    // Schedulesとのリレーションを追加
     public function schedules() {
         return $this->hasMany(Schedule::class);
     }
