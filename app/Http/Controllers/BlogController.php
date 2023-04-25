@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -12,7 +13,12 @@ class BlogController extends Controller
      */
     public function index()
     {
-        //
+        $blogs = Blog::latest()->paginate(3);
+
+        $auth_user = Auth::user()->name;
+
+        return view('blog_index', compact('blogs', 'auth_user'))
+                ->with('i', (request()->input('page', 1) - 1) * 3);
     }
 
     /**
