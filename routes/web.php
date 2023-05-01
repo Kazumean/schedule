@@ -50,7 +50,7 @@ Route::get('/blogs/edit/{blog}', [BlogController::class, 'edit'])->name('blogs.e
 Route::put('/blogs/update/{blog}', [BlogController::class, 'update'])->name('blogs.update')->middleware('auth');
 
 // 記事の削除
-Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blog.destroy')->middleware('auth');
+Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy')->middleware('auth');
 
 
 // スケジュール

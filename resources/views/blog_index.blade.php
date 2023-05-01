@@ -34,11 +34,11 @@
                 <div class="text-end">
                     @if (Auth::id() == $blog->user_id)
                         {{-- <a class="btn btn-sm btn-info" href="{{ route('blog.edit', $blog->id)}}">変更</a> --}}
-                        <a class="btn btn-sm btn-success" href="{{ route('blog.edit', [$blog->id, 'page' => request()->input('page')]) }}">変更</a>
+                        <a class="btn btn-sm btn-success" href="{{ route('blogs.edit', [$blog->id, 'page' => request()->input('page')]) }}">変更</a>
                     @endif
 
                     @if (Auth::id() == $blog->user_id)
-                        <form action="{{ route('blog.destroy'), [$blog->id, 'page' => request()->input('page')] }}" method="POST" style="display: inline;">
+                        <form action="{{ route('blogs.destroy', [$blog->id, 'page' => request()->input('page')]) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('削除しますか？')">削除</button>

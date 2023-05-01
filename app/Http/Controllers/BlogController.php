@@ -26,7 +26,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -34,7 +34,26 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'image' => 'required',
+        ]);
+
+        // ディレクトリ名
+        $dir = 'images';
+
+        // imagesディレクトリに画像を保存
+        $path = $request->file('image')->store('/public/' . $dir);
+
+        $blog = new Blog;
+        $blog->title = $request->input(['title']);
+        $blog->content = $request->input(['content']);
+        $blog->user_id = Auth::user()->id;
+        $blog->image = $path;
+        $blog->save();
+
+        return redirect()->route('blogs.index')->with('success', '登録しました');
     }
 
     /**
