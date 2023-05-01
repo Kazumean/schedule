@@ -69,7 +69,13 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        //
+        // $blogs = Blog::all();
+
+        if ($blog->user_id != Auth::user()->id) {
+            exit();
+        }
+
+        return view('edit', compact('blog'));
     }
 
     /**
