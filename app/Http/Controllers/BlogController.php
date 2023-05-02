@@ -83,7 +83,26 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        if ($request->file('image')) {
+            $dir = 'images';
+            $path = request()->file('image')->store('/public/'. $dir);
+        }
+
+        $blog->title = $request->input(['title']);
+        $blog->content = $request->input(['content']);
+        $blog->user_id = Auth::user()->id;
+        if ($request->file('image')) {
+            $blog->image = $path;
+        }
+        $blog->save();
+        $page = request()->input('page');
+
+        return redirect()->route('blogs.index', ['page' => $page])->with('success', '更新しました');
     }
 
     /**
