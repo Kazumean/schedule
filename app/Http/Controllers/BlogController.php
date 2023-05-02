@@ -110,6 +110,9 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        //
+        $blog->delete();
+        $page = request()->input('page');
+        
+        return redirect()->route('blogs.index', ['page' => $page])->with('success', $blog->title . 'を削除しました');
     }
 }
