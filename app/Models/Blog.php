@@ -6,18 +6,19 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Schedule extends Model
+class Blog extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
-        'yyymmdd',
+        'content',
         'user_id',
+        'image'
     ];
 
-    // リレーションを追加
-    public function users() {
+    // Userとのリレーションを追加
+    public function user() {
         return $this->belongsTo(User::class);
     }
 }
