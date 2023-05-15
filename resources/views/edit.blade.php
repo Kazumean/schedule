@@ -23,7 +23,7 @@
             <div class="row w-75">
                 <div class="col-12 mb-2 mt-2">
                     <div class="form-group">
-                        <input type="text" name="title" value="{{ $blog->title }}" class="form-control" placeholder="タイトル">
+                        <input type="text" name="title" value="{{ $blog->title }}" class="form-control" placeholder="タイトル" value="{{ old('title') }}">
                     </div>
                 </div>
                 <div class="col-12 mb-2 mt-2">

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Schedule;
 use App\Models\User;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {
@@ -23,11 +24,24 @@ class ScheduleController extends Controller
         $mm = date('m', strtotime("+$page month"));
         $days = date('d', mktime(0, 0, 0, date('m')+($page+1), 0, date('Y')));
 
-        $schedules = Schedule::where('yyyymmdd', 'LIKE', $yyyy.'-'.$mm.'-%')->get();
+        // $schedules = Schedule::where('yyyymmdd', 'LIKE', $yyyy.'-'.$mm.'-%')->get();
 
-        $user = User::find(1);
+        // $user = User::find(1);
 
-        return view('sche_index', compact('page', 'yyyy', 'mm', 'days', 'schedules', 'user'));
+        $schedules = DB::table('schedules as s')
+                        ->select(
+                            's.id as sche_id',
+                            's.title',
+                            's.yyyymmdd',
+                            's.user_id',
+                            's.created_at',
+                            's.updated_at',
+                            'u.name as user_name'
+                        )
+                        ->leftJoin('users as u', 's.user_id', '=', 'u.id')
+                        ->get();
+
+        return view('sche_index', compact('page', 'yyyy', 'mm', 'days', 'schedules'));
     }
 
     /**
