@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
@@ -24,7 +25,9 @@ class ScheduleController extends Controller
 
         $schedules = Schedule::where('yyyymmdd', 'LIKE', $yyyy.'-'.$mm.'-%')->get();
 
-        return view('sche_index', compact('page', 'yyyy', 'mm', 'days', 'schedules'));
+        $user = User::find(1);
+
+        return view('sche_index', compact('page', 'yyyy', 'mm', 'days', 'schedules', 'user'));
     }
 
     /**

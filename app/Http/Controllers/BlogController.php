@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
@@ -13,7 +14,29 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::latest()->paginate(3);
+        // $blogs = Blog::latest()->paginate(3);
+
+        // $blogs = Blog::select([
+        //     'b.id',
+        //     'b.title',
+        //     'b.content',
+        //     'b.image',
+        //     'b.created_at',
+        //     'b.updated_at',
+        //     'u.name',
+        //     'u.email',
+        // ])
+        // ->from('blogs as b')
+        // ->join('users as u', function($join) {
+        //     $join->on('b.user_id', '=', 'u.id');
+        // })
+        // ->orderBy('b.id', 'ASC')
+        // ->paginate(3);
+
+        $blogs = DB::table('blogs')
+                    ->leftJoin('users', 'blogs.user_id', '=', 'users.id')
+                    ->orderBy('blogs.id')
+                    ->paginate(3);
 
         $auth_user = Auth::user()->name;
 
