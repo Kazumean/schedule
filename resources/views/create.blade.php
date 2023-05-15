@@ -19,7 +19,7 @@
             <div class="row w-75">
                 <div class="col-12 mb-2 mt-2">
                     <div class="form-group">
-                        <input type="text" name="title" class="form-control" placeholder="タイトル">
+                        <input type="text" name="title" class="form-control" placeholder="タイトル" value="{{ old('title') }}">
                     </div>
                     @error('title')
                         <span style="color: red">タイトルは必須です。</span>
@@ -28,7 +28,7 @@
 
                 <div class="col-12 mb-2 mt-2">
                     <div class="form-group">
-                        <textarea class="form-control" style="height: 100px" name="content" placeholder="本文"></textarea>
+                        <textarea class="form-control" style="height: 100px" name="content" placeholder="本文">{{ old('content') }}</textarea>
                     </div>
                     @error('content')
                         <span style="color: red">本文は必須です。</span>

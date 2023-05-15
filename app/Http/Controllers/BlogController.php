@@ -33,9 +33,18 @@ class BlogController extends Controller
         // ->orderBy('b.id', 'ASC')
         // ->paginate(3);
 
-        $blogs = DB::table('blogs')
-                    ->leftJoin('users', 'blogs.user_id', '=', 'users.id')
-                    ->orderBy('blogs.id')
+        $blogs = DB::table('blogs as b')
+                    ->select(
+                        'b.id as blog_id',
+                        'b.title',
+                        'b.content',
+                        'b.image',
+                        'b.user_id',
+                        'b.created_at',
+                        'b.updated_at',
+                        'u.name')
+                    ->leftJoin('users as u', 'b.user_id', '=', 'u.id')
+                    ->orderBy('b.id')
                     ->paginate(3);
 
         $auth_user = Auth::user()->name;

@@ -5,7 +5,7 @@
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
                 <h2 style="font-size: 1rem;">編集画面</h2>
-                <h3 style="font-size: 1rem;">{{ $blog->user->name }}さん投稿者本人だけしか編集できません</h3>
+                <h3 style="font-size: 1rem;">投稿者本人だけしか編集できません</h3>
             </div>
             <div class="pull-right">
                 <a class="btn btn-success" href="{{ url('/blogs') }}?page={{ request()->input('page') }}">
