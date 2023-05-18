@@ -98,9 +98,21 @@ class ScheduleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Schedule $schedule)
+    public function edit(Schedule $schedule, Request $request)
     {
-        //
+        $schedules = Schedule::all();
+
+        $yyyy = substr($schedule->yyyymmdd, 0, 4);
+        $mm = substr($schedule->yyyymmdd, 5, 2);
+        $dd = substr($schedule->yyyymmdd, 8, 2);
+
+        $page = $request->input(["page"]);
+
+        if (!$page) {
+            $page = 0;
+        }
+
+        return view('sche_edit', compact('schedule', 'page', 'yyyy', 'mm', 'dd'));
     }
 
     /**
