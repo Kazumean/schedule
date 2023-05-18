@@ -31,6 +31,12 @@
     @endphp
 </div>
 
+@if ($message = Session::get('success'))
+    <div class="alert alert-success w-75">
+        <p>{{ $message }}</p>
+    </div>
+@endif
+
 <table class="table w-75">
     @for ($i = 1; $i < $days; $i++)
         <tr>
