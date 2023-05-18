@@ -120,7 +120,17 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, Schedule $schedule)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+        ]);
+
+        $schedule->title = $request->input(["title"]);
+        $schedule->user_id = Auth::user()->id;
+        $schedule->save();
+
+        $page = request()->input('page');
+
+        return redirect()->route('schedule.index', ['page' => $page])->with('success', '更新しました');
     }
 
     /**

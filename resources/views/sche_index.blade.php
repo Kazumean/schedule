@@ -23,7 +23,7 @@
                     }
                     $title[$i].="<div class='text-end'>";
                     $title[$i].="<span>by ".$schedule->user_name."</span>";
-                    $title[$i].="<span> <a href='".route('schedule.edit',[ $schedule->sche_id, 'page' => request()->input('page') ])."'>編集</a></span>";
+                    $title[$i].="<span>  <a href='".route('schedule.edit',[ $schedule->sche_id, 'page' => request()->input('page') ])."'>編集・削除</a></span>";
                     $title[$i].="</div>";
                 }
             }
