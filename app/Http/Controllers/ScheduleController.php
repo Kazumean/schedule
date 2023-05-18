@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
@@ -49,7 +50,16 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        //
+        $page = request()->input('page');
+
+        if (!$page) {
+            $page = 0;
+        }
+        $yyyy = date('Y', strtotime("+$page month"));
+        $mm = date('m', strtotime("+$page month"));
+        $dd = request()->input('dd');
+
+        return view ('sche_create', compact('yyyy', 'mm', 'dd', 'page'));
     }
 
     /**
@@ -57,7 +67,24 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'yyyy' => 'required',
+            'mm' => 'required',
+            'dd' => 'required',
+        ]);
+
+        $schedule = new Schedule;
+        $schedule->title = $request->input(["title"]);
+        $schedule->yyyymmdd = $request->input(["yyyy"]). "-". $request->input(["mm"]). "-". $request->input(["dd"]);
+        $schedule->user_id = Auth::user()->id;
+        $schedule->save();
+
+        $page = $request->input(["page"]);
+        $yyyy = $request->input(["yyyy"]);
+        $mm = $request->input(["mm"]);
+
+        return redirect()->route('schedule.index', compact('page', 'yyyy', 'mm'))->with('success', '登録しました');
     }
 
     /**
@@ -71,9 +98,21 @@ class ScheduleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Schedule $schedule)
+    public function edit(Schedule $schedule, Request $request)
     {
-        //
+        $schedules = Schedule::all();
+
+        $yyyy = substr($schedule->yyyymmdd, 0, 4);
+        $mm = substr($schedule->yyyymmdd, 5, 2);
+        $dd = substr($schedule->yyyymmdd, 8, 2);
+
+        $page = $request->input(["page"]);
+
+        if (!$page) {
+            $page = 0;
+        }
+
+        return view('sche_edit', compact('schedule', 'page', 'yyyy', 'mm', 'dd'));
     }
 
     /**
@@ -81,7 +120,17 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, Schedule $schedule)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+        ]);
+
+        $schedule->title = $request->input(["title"]);
+        $schedule->user_id = Auth::user()->id;
+        $schedule->save();
+
+        $page = request()->input('page');
+
+        return redirect()->route('schedule.index', ['page' => $page])->with('success', '更新しました');
     }
 
     /**
@@ -89,6 +138,10 @@ class ScheduleController extends Controller
      */
     public function destroy(Schedule $schedule)
     {
-        //
+        $schedule->delete();
+
+        $page = request()->input('page');
+
+        return redirect()->route('schedule.index', ['page' => $page])->with('success', $schedule->title. 'を削除しました');
     }
 }
