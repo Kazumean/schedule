@@ -138,6 +138,10 @@ class ScheduleController extends Controller
      */
     public function destroy(Schedule $schedule)
     {
-        //
+        $schedule->delete();
+
+        $page = request()->input('page');
+
+        return redirect()->route('schedule.index', ['page' => $page])->with('success', $schedule->title. 'を削除しました');
     }
 }
