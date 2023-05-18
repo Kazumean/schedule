@@ -10,18 +10,20 @@
         <a href="{{ url('./schedules')}}?page={{$page+1}}" class="btn btn-sm btn-secondary">次の月</a>
     </div>
 
+    
     @php
         foreach ($schedules as $schedule) {
-            for ($i=1; $i <= 31; $i++) { 
+            for ($i=1; $i <= 31; $i++) {
+                if ($i < 10) {$i = '0' . $i;} 
                 if ( substr($schedule->yyyymmdd, 8, 2) == $i) {
                     if(isset($title[$i])) {
-                        $title[$i] .= "<div>" . $schedule->title . "</div>";
+                        $title[$i] .= "<div>". $schedule->title. "</div>";
                     } else {
-                        $title[$i] = "<div>" . $schedule->title . "</div>";
+                        $title[$i] = "<div>". $schedule->title. "</div>";
                     }
                     $title[$i].="<div class='text-end'>";
                     $title[$i].="<span>by ".$schedule->user_name."</span>";
-                    $title[$i].="<span><a href='".route('schedule.edit',[ $schedule->sche_id, 'page' => request()->input('page') ])."'>編集</a></span>";
+                    $title[$i].="<span> <a href='".route('schedule.edit',[ $schedule->sche_id, 'page' => request()->input('page') ])."'>編集</a></span>";
                     $title[$i].="</div>";
                 }
             }
